@@ -1,0 +1,33 @@
+﻿@model PaginaparaSalvarVidas.Models.AnimalComunitario
+
+@{
+    ViewData["Title"] = "Editar Animal Comunitario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<h1>Editar</h1>
+
+<form asp-action="Edit">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label>Id del Animal</label>
+        <input asp-for="AnimalId" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Lugar Habitual</label>
+        <input asp-for="LugarHabitual" class="form-control" />
+    </div>
+
+    <div class="form-check">
+        <input asp-for="AptoParaAdopcion" class="form-check-input" />
+        <label asp-for="AptoParaAdopcion" class="form-check-label"></label>
+    </div>
+
+    <br />
+
+    <button type="submit" class="btn btn-success">Actualizar</button>
+    <a asp-action="Index" class="btn btn-secondary">Volver</a>
+</form>

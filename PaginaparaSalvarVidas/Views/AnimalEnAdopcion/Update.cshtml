@@ -1,0 +1,33 @@
+﻿@model PaginaparaSalvarVidas.Models.AnimalEnAdopcion
+
+@{
+    ViewData["Title"] = "Editar Adopción";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<h1>Editar</h1>
+
+<form asp-action="Edit">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label>Id del Animal</label>
+        <input asp-for="AnimalId" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Id de la Familia</label>
+        <input asp-for="FamiliaId" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Fecha de Adopción</label>
+        <input asp-for="FechaAdopcion" type="date" class="form-control" />
+    </div>
+
+    <br />
+
+    <button type="submit" class="btn btn-success">Actualizar</button>
+    <a asp-action="Index" class="btn btn-secondary">Volver</a>
+</form>

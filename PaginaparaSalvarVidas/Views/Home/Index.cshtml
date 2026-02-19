@@ -1,0 +1,80 @@
+﻿@{
+    ViewData["Title"] = "Inicio";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5 text-center">
+
+    <h1 class="display-4 fw-bold text-success">
+        🐾 Bienvenidos a Salvar Vidas
+    </h1>
+
+    <p class="lead mt-4">
+        Nuestro sistema busca generar impacto social, promoviendo la adopción responsable
+        y el rescate animal.
+   
+        Es una aplicación fácil de usar, rápida y visualmente agradable,
+        pensada para usuarios reales y adaptable a futuras ampliaciones como:
+        donaciones, refugios y veterinarias.
+    </p>
+
+    <div class="row mt-5">
+
+        <div class="col-md-3">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5>🐶 En Adopción</h5>
+                    <a asp-controller="AnimalEnAdopcion" asp-action="Index" class="btn btn-success btn-sm mt-2">
+                        Ver más
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5>🔎 Perdidos</h5>
+                    <a asp-controller="AnimalPerdidoEncontrado" asp-action="Index" class="btn btn-warning btn-sm mt-2">
+                        Ver más
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5>🏠 En Tránsito</h5>
+                    <a asp-controller="AnimalEnTransito" asp-action="Index" class="btn btn-primary btn-sm mt-2">
+                        Ver más
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5>🐾 Comunitarios</h5>
+                    <a asp-controller="AnimalComunitario" asp-action="Index" class="btn btn-secondary btn-sm mt-2">
+                        Ver más
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5>🐾 Familia</h5>
+                    <a asp-controller="Familia" asp-action="Index" class="btn btn-secondary btn-sm mt-2">
+                        Ver más
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

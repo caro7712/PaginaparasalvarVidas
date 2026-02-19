@@ -1,0 +1,38 @@
+﻿@model IEnumerable<PaginaparaSalvarVidas.Models.AnimalComunitario>
+
+@{
+    ViewData["Title"] = "Animales Comunitarios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<h1>Animales Comunitarios</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">➕ Nuevo</a>
+</p>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Animal</th>
+            <th>Lugar Habitual</th>
+            <th>Apto para Adopción</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Animal?.Nombre</td>
+                <td>@item.LugarHabitual</td>
+                <td>@(item.AptoParaAdopcion ? "Sí" : "No")</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">✏ Editar</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">🗑 Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,44 @@
+﻿@model IEnumerable<PaginaparaSalvarVidas.Models.AnimalPerdidoEncontradoVM>
+
+@{
+    ViewData["Title"] = "Animales Perdidos / Encontrados";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<h1>Animales Perdidos / Encontrados</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">➕ Nuevo Reporte</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Animal</th>
+            <th>Descripción</th>
+            <th>Dirección</th>
+            <th>Teléfono</th>
+            <th>Fecha</th>
+            <th>Estado</th>
+            <th>Accion</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.NombreAnimal ?? "No registrado"</td>
+                <td>@item.Descripcion</td>
+                <td>@item.Direccion</td>
+                <td>@item.TelefonoContacto</td>
+                <td>@item.Fecha.ToShortDateString()</td>
+                <td>@item.Estado</td>
+                <td>
+                    <a asp-action="Update" asp-route-id="@item.Id" class="btn btn-warning btn-sm">✏ Cambiar</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">🗑 Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
