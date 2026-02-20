@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PaginaparaSalvarVidas")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4c75e97075627a893688c6af164121633bfd61c8")]
 [assembly: System.Reflection.AssemblyProductAttribute("PaginaparaSalvarVidas")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PaginaparaSalvarVidas")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

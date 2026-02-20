@@ -574,3 +574,4 @@ C:\Users\leon_\Desktop\Sitio web\PaginaparaSalvarVidas\PaginaparaSalvarVidas\obj
 C:\Users\leon_\Desktop\Sitio web\PaginaparaSalvarVidas\PaginaparaSalvarVidas\obj\Debug\net8.0\PaginaparaSalvarVidas.pdb
 C:\Users\leon_\Desktop\Sitio web\PaginaparaSalvarVidas\PaginaparaSalvarVidas\obj\Debug\net8.0\PaginaparaSalvarVidas.genruntimeconfig.cache
 C:\Users\leon_\Desktop\Sitio web\PaginaparaSalvarVidas\PaginaparaSalvarVidas\obj\Debug\net8.0\ref\PaginaparaSalvarVidas.dll
+C:\Users\leon_\Desktop\Sitio web\PaginaparaSalvarVidas\PaginaparaSalvarVidas\obj\Debug\net8.0\PaginaparaSalvarVidas.sourcelink.json

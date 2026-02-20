@@ -11,16 +11,14 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
-{
-    options.SignIn.RequireConfirmedAccount = false;
-})
-.AddEntityFrameworkStores<ApplicationDbContext>();
+    options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>(); // ← solo una vez, sin punto al inicio
 
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Middleware por defecto
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -32,13 +30,13 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapDefaultControllerRoute();
+
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     await Semilla.Inicializar(services);
 }
-app.MapRazorPages(); // Identity usa p�ginas Razor
-app.Run();
 
+app.MapRazorPages();
+app.Run();

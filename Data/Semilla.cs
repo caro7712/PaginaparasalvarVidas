@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using PaginaparaSalvarVidas.Models;
 
 namespace PaginaparaSalvarVidas.Data
@@ -10,26 +12,55 @@ namespace PaginaparaSalvarVidas.Data
             using var context = new ApplicationDbContext(
                 serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>());
 
-            // Si ya hay datos, no vuelve a sembrar
+            // ← NUEVO: obtener UserManager y RoleManager del DI
+            var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+            // -----------------------------
+            // ROL ADMIN
+            // -----------------------------
+            if (!await roleManager.RoleExistsAsync("Admin"))
+                await roleManager.CreateAsync(new IdentityRole("Admin"));
+
+            if (!await roleManager.RoleExistsAsync("Usuario"))
+                await roleManager.CreateAsync(new IdentityRole("Usuario"));
+
+            // -----------------------------
+            // USUARIO ADMIN
+            // -----------------------------
+            const string adminEmail = "admin@salvar.com";
+            const string adminPassword = "Admin123!";
+
+            if (await userManager.FindByEmailAsync(adminEmail) == null)
+            {
+                var admin = new IdentityUser
+                {
+                    UserName = adminEmail,
+                    Email = adminEmail,
+                    EmailConfirmed = true // ← evita que pida confirmar email para poder loguearse
+                };
+
+                var resultado = await userManager.CreateAsync(admin, adminPassword);
+
+                if (resultado.Succeeded)
+                    await userManager.AddToRoleAsync(admin, "Admin");
+            }
+
+            // -----------------------------
+            // DATOS DE NEGOCIO
+            // -----------------------------
             if (context.Familias.Any())
                 return;
 
-            // -----------------------------
-            // FAMILIA
-            // -----------------------------
             var familia = new Familia
             {
                 Nombre = "Familia González",
                 Direccion = "Av. Siempre Viva 742",
                 Telefono = "1122334455"
             };
-
             context.Familias.Add(familia);
             await context.SaveChangesAsync();
 
-            // -----------------------------
-            // ANIMAL
-            // -----------------------------
             var animal = new Animal
             {
                 Nombre = "Luna",
@@ -39,13 +70,9 @@ namespace PaginaparaSalvarVidas.Data
                 Foto = "luna.jpg",
                 Estado = EstadoAnimal.EnTransito
             };
-
             context.Animales.Add(animal);
             await context.SaveChangesAsync();
 
-            // -----------------------------
-            // ANIMAL EN ADOPCIÓN
-            // -----------------------------
             context.AnimalesEnAdopcion.Add(new AnimalEnAdopcion
             {
                 AnimalId = animal.Id,
@@ -53,9 +80,6 @@ namespace PaginaparaSalvarVidas.Data
                 FechaAdopcion = DateTime.Now
             });
 
-            // -----------------------------
-            // ANIMAL EN TRÁNSITO
-            // -----------------------------
             context.AnimalesEnTransito.Add(new AnimalEnTransito
             {
                 AnimalId = animal.Id,
@@ -64,9 +88,6 @@ namespace PaginaparaSalvarVidas.Data
                 FechaSalida = null
             });
 
-            // -----------------------------
-            // ANIMAL PERDIDO / ENCONTRADO
-            // -----------------------------
             context.AnimalesPerdidosEncontrados.Add(new AnimalPerdidoEncontrado
             {
                 AnimalId = animal.Id,
@@ -76,9 +97,6 @@ namespace PaginaparaSalvarVidas.Data
                 Fecha = DateTime.Now
             });
 
-            // -----------------------------
-            // ANIMAL COMUNITARIO
-            // -----------------------------
             context.AnimalesComunitarios.Add(new AnimalComunitario
             {
                 AnimalId = animal.Id,
