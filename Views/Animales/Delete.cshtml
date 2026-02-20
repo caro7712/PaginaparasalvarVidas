@@ -1,0 +1,43 @@
+﻿@model PaginaparaSalvarVidas.Models.Animal
+@{
+    ViewData["Title"] = "Eliminar Animal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<h1>Eliminar Animal</h1>
+
+<h4>¿Estás seguro que querés eliminar este registro?</h4>
+<hr />
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-3">Nombre</dt>
+        <dd class="col-sm-9">@Model.Nombre</dd>
+
+        <dt class="col-sm-3">Tipo</dt>
+        <dd class="col-sm-9">@Model.Tipo</dd>
+
+        <dt class="col-sm-3">Raza</dt>
+        <dd class="col-sm-9">@Model.Raza</dd>
+
+        <dt class="col-sm-3">Edad</dt>
+        <dd class="col-sm-9">@Model.Edad</dd>
+
+        <dt class="col-sm-3">Estado</dt>
+        <dd class="col-sm-9">@Model.Estado</dd>
+
+        <dt class="col-sm-3">Foto</dt>
+        <dd class="col-sm-9">
+            <img src="@Model.Foto" width="120" />
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="Id" />
+
+        <button type="submit" class="btn btn-danger">🗑 Eliminar</button>
+        <a asp-action="Index" class="btn btn-secondary">↩ Volver</a>
+    </form>
+</div>

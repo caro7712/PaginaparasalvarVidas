@@ -1,0 +1,89 @@
+﻿@model IEnumerable<PaginaparaSalvarVidas.Models.Procedimiento_almacenado.FiltrarAnimal>
+@{
+    ViewData["Title"] = "Listado de Animales";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Listado de Animales</h1>
+
+<!-- Form de filtro -->
+<form asp-action="Filtrar" method="get" class="row g-3 mb-3">
+    <div class="col-md-3">
+        <label for="estado" class="form-label">Estado</label>
+        <select id="estado" name="estado" class="form-select">
+            <option value="">Todos</option>
+            @foreach (var e in Enum.GetValues(typeof(PaginaparaSalvarVidas.Models.EstadoAnimal)))
+            {
+                <option value="@((int)e)">@e</option>
+            }
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <label for="tipo" class="form-label">Tipo</label>
+        <input type="text" id="tipo" name="tipo" class="form-control" placeholder="Ej: Perro, Gato..." />
+    </div>
+
+    <div class="col-md-2">
+        <label for="edadMin" class="form-label">Edad Min</label>
+        <input type="number" id="edadMin" name="edadMin" class="form-control" />
+    </div>
+
+    <div class="col-md-2">
+        <label for="edadMax" class="form-label">Edad Max</label>
+        <input type="number" id="edadMax" name="edadMax" class="form-control" />
+    </div>
+
+    <div class="col-md-2 d-flex align-items-end">
+        <button type="submit" class="btn btn-primary w-100">🔎 Filtrar</button>
+    </div>
+</form>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">➕ Crear Nuevo</a>
+</p>
+
+<table class="table table-striped table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>Nombre</th>
+            <th>Tipo</th>
+            <th>Raza</th>
+            <th>Edad</th>
+            <th>Foto</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Nombre</td>
+                    <td>@item.Tipo</td>
+                    <td>@item.Raza</td>
+                    <td>@item.Edad</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.Foto))
+                        {
+                            <img src="@item.Foto" width="80" />
+                        }
+                    </td>
+                    <td>@item.Estado</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">✏ Editar</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">🗑 Eliminar</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="7" class="text-center">No se encontraron animales.</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,36 @@
+﻿@model PaginaparaSalvarVidas.Models.AnimalPerdidoEncontrado
+
+@{
+    ViewData["Title"] = "Eliminar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<h1>Eliminar</h1>
+
+<h4>¿Seguro que desea eliminar este reporte?</h4>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">Animal</dt>
+        <dd class="col-sm-10">@Model.Animal?.Nombre ?? "No registrado"</dd>
+
+        <dt class="col-sm-2">Descripción</dt>
+        <dd class="col-sm-10">@Model.Descripcion</dd>
+
+        <dt class="col-sm-2">Dirección</dt>
+        <dd class="col-sm-10">@Model.Direccion</dd>
+
+        <dt class="col-sm-2">Teléfono</dt>
+        <dd class="col-sm-10">@Model.TelefonoContacto</dd>
+
+        <dt class="col-sm-2">Fecha</dt>
+        <dd class="col-sm-10">@Model.Fecha.ToShortDateString()</dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>

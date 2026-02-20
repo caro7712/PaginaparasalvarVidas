@@ -1,0 +1,38 @@
+﻿@model PaginaparaSalvarVidas.Models.AnimalEnTransito
+
+@{
+    ViewData["Title"] = "Editar Tránsito";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<h1>Editar</h1>
+
+<form asp-action="Edit">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label>Id del Animal</label>
+        <input asp-for="AnimalId" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Id de la Familia</label>
+        <input asp-for="FamiliaId" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="FechaIngreso"></label>
+        <input asp-for="FechaIngreso" type="date" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="FechaSalida"></label>
+        <input asp-for="FechaSalida" type="date" class="form-control" />
+    </div>
+
+    <br />
+
+    <button type="submit" class="btn btn-success">Actualizar</button>
+    <a asp-action="Index" class="btn btn-secondary">Volver</a>
+</form>

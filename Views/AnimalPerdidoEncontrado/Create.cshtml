@@ -1,0 +1,44 @@
+﻿@model PaginaparaSalvarVidas.Models.AnimalPerdidoEncontrado
+
+@{
+    ViewData["Title"] = "Nuevo Reporte";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<h1>Nuevo Reporte</h1>
+
+<form asp-action="Create">
+    <div class="form-group">
+        <label>Id del Animal (opcional)</label>
+        <input asp-for="AnimalId" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Descripcion"></label>
+        <input asp-for="Descripcion" class="form-control" />
+        <span asp-validation-for="Descripcion" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Direccion"></label>
+        <input asp-for="Direccion" class="form-control" />
+        <span asp-validation-for="Direccion" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="TelefonoContacto"></label>
+        <input asp-for="TelefonoContacto" class="form-control" />
+        <span asp-validation-for="TelefonoContacto" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Fecha"></label>
+        <input asp-for="Fecha" type="date" class="form-control" />
+    </div>
+
+    <br />
+
+    <button type="submit" class="btn btn-success">💾 Guardar</button>
+    <a asp-action="Index" class="btn btn-secondary">Volver</a>
+</form>
