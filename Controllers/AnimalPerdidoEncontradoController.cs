@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PaginaparaSalvarVidas.Data;
-using PaginaparaSalvarVidas.Models;
 using PaginaparaSalvarVidas.Models;
 
 namespace PaginaparaSalvarVidas.Controllers
@@ -15,26 +15,64 @@ namespace PaginaparaSalvarVidas.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var lista = _context.AnimalesPerdidosEncontrados
-                .Include(a => a.Animal)
-                .Select(a => new AnimalPerdidoEncontradoVM
+            // 1) IDs de animales Perdidos o Encontrados
+            var idsPE = await _context.Animales
+                .AsNoTracking()
+                .Where(a =>
+                    a.Estado == EstadoAnimal.Perdido ||
+                    a.Estado == EstadoAnimal.Encontrado)
+                .Select(a => a.Id)
+                .ToListAsync();
+
+            // 2) IDs ya registrados en reportes
+            var idsYaRegistrados = await _context.AnimalesPerdidosEncontrados
+                .AsNoTracking()
+                .Where(r => r.AnimalId.HasValue && idsPE.Contains(r.AnimalId.Value))
+                .Select(r => r.AnimalId!.Value)
+                .ToListAsync();
+
+            // 3) Crear faltantes
+            var faltantes = idsPE.Except(idsYaRegistrados).ToList();
+
+            if (faltantes.Count > 0)
+            {
+                var nuevos = faltantes.Select(idAnimal => new AnimalPerdidoEncontrado
                 {
-                    Id = a.Id,
-                    NombreAnimal = a.Animal != null ? a.Animal.Nombre : "No registrado",
-                    Estado = a.Animal != null ? a.Animal.Estado.ToString() : "Sin estado",
-                    Descripcion = a.Descripcion,
-                    Direccion = a.Direccion,
-                    TelefonoContacto = a.TelefonoContacto,
-                    Fecha = a.Fecha
+                    AnimalId = idAnimal,
+                    Descripcion = "",
+                    Direccion = "",
+                    TelefonoContacto = "",
+                    Fecha = DateTime.Today
+                });
+
+                _context.AnimalesPerdidosEncontrados.AddRange(nuevos);
+                await _context.SaveChangesAsync();
+            }
+
+            // 4) Construir ViewModel
+            var lista = await _context.AnimalesPerdidosEncontrados
+                .Include(r => r.Animal)
+                .Select(r => new AnimalPerdidoEncontradoVM
+                {
+                    Id = r.Id,
+                    NombreAnimal = r.Animal != null
+                        ? r.Animal.Nombre
+                        : "No registrado",
+                    Estado = r.Animal != null
+                        ? r.Animal.Estado.ToString()
+                        : "Sin estado",
+                    Descripcion = r.Descripcion,
+                    Direccion = r.Direccion,
+                    TelefonoContacto = r.TelefonoContacto,
+                    Fecha = r.Fecha
                 })
-                .ToList();
+                .ToListAsync();
 
             return View(lista);
         }
 
-        // GET: AnimalPerdidoEncontrado/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null) return NotFound();
@@ -48,66 +86,71 @@ namespace PaginaparaSalvarVidas.Controllers
             return View(entidad);
         }
 
-        // GET: AnimalPerdidoEncontrado/Create
+        // ✅ GET Create (FIX)
         public IActionResult Create()
         {
-            return View();
+            return View(new AnimalPerdidoEncontrado());
         }
 
-        // POST: AnimalPerdidoEncontrado/Create
+        // POST Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(
-            [Bind("Id,AnimalId,Descripcion,Direccion,TelefonoContacto,Fecha")] AnimalPerdidoEncontrado entidad)
+        public async Task<IActionResult> Create([Bind("Id,AnimalId,Descripcion,Direccion,TelefonoContacto,Fecha")] AnimalPerdidoEncontrado entidad)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(entidad);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(entidad);
+            // por si tenés navegación Animal = null! en el modelo
+            ModelState.Remove("Animal");
+
+            if (!ModelState.IsValid)
+                return View(entidad);
+
+            _context.AnimalesPerdidosEncontrados.Add(entidad);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
-        // GET: AnimalPerdidoEncontrado/Edit/5
-        public async Task<IActionResult>edit(int? id)
+        // GET Update
+        public async Task<IActionResult> Update(int? id)
         {
             if (id == null) return NotFound();
 
             var entidad = await _context.AnimalesPerdidosEncontrados.FindAsync(id);
             if (entidad == null) return NotFound();
 
+            CargarAnimales(entidad.AnimalId);
+
             return View(entidad);
         }
 
-        // POST: AnimalPerdidoEncontrado/Edit/5
+        // ✅ POST Update (más seguro)
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id,
-            [Bind("Id,AnimalId,Descripcion,Direccion,TelefonoContacto,Fecha")] AnimalPerdidoEncontrado entidad)
+        public async Task<IActionResult> Update(int id, [Bind("Id,AnimalId,Descripcion,Direccion,TelefonoContacto,Fecha")] AnimalPerdidoEncontrado entidad)
         {
-            if (id != entidad.Id) return NotFound();
+            if (id != entidad.Id) return BadRequest();
 
-            if (ModelState.IsValid)
+            ModelState.Remove("Animal");
+
+            if (!ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(entidad);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!Exists(entidad.Id))
-                        return NotFound();
-                    else
-                        throw;
-                }
-                return RedirectToAction(nameof(Index));
+                CargarAnimales(entidad.AnimalId);
+                return View(entidad);
             }
-            return View(entidad);
+
+            var entidadBD = await _context.AnimalesPerdidosEncontrados.FindAsync(id);
+            if (entidadBD == null) return NotFound();
+
+
+            entidadBD.AnimalId = entidad.AnimalId;
+            entidadBD.Descripcion = entidad.Descripcion;
+            entidadBD.Direccion = entidad.Direccion;
+            entidadBD.TelefonoContacto = entidad.TelefonoContacto;
+            entidadBD.Fecha = entidad.Fecha;
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
-        // GET: AnimalPerdidoEncontrado/Delete/5
+        // GET Delete
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null) return NotFound();
@@ -121,7 +164,7 @@ namespace PaginaparaSalvarVidas.Controllers
             return View(entidad);
         }
 
-        // POST: AnimalPerdidoEncontrado/Delete/5
+        // POST Delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -140,6 +183,19 @@ namespace PaginaparaSalvarVidas.Controllers
         private bool Exists(int id)
         {
             return _context.AnimalesPerdidosEncontrados.Any(e => e.Id == id);
+        }
+
+        private void CargarAnimales(int? seleccionado = null)
+        {
+            ViewBag.Animales = _context.Animales
+                .AsNoTracking()
+                .Select(a => new SelectListItem
+                {
+                    Value = a.Id.ToString(),
+                    Text = a.Nombre,
+                    Selected = seleccionado.HasValue && a.Id == seleccionado.Value
+                })
+                .ToList();
         }
     }
 }

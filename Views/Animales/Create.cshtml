@@ -1,74 +1,142 @@
-﻿@model PaginaparaSalvarVidas.Models.Animal
+﻿@model PaginaparaSalvarVidas.Models.AnimalVM
+@using PaginaparaSalvarVidas.Models
 
 @{
     ViewData["Title"] = "Crear Animal";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
 }
 
-<h1>Crear Animal</h1>
-<hr />
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
 
-<div class="row">
-    <div class="col-md-6">
-        <form asp-action="Create" method="post">
-            @Html.AntiForgeryToken()
-
-            <!-- Nombre -->
-            <div class="mb-3">
-                <label asp-for="Nombre" class="form-label"></label>
-                <input asp-for="Nombre" class="form-control" />
-                <span asp-validation-for="Nombre" class="text-danger"></span>
-            </div>
-
-            <!-- Tipo -->
-            <div class="mb-3">
-                <label asp-for="Tipo" class="form-label"></label>
-                <input asp-for="Tipo" class="form-control" />
-                <span asp-validation-for="Tipo" class="text-danger"></span>
-            </div>
-
-            <!-- Raza -->
-            <div class="mb-3">
-                <label asp-for="Raza" class="form-label"></label>
-                <input asp-for="Raza" class="form-control" />
-                <span asp-validation-for="Raza" class="text-danger"></span>
-            </div>
-
-            <!-- Edad -->
-            <div class="mb-3">
-                <label asp-for="Edad" class="form-label"></label>
-                <input asp-for="Edad" type="number" class="form-control" />
-                <span asp-validation-for="Edad" class="text-danger"></span>
-            </div>
-
-            <!-- Foto -->
-            <div class="mb-3">
-                <label asp-for="Foto" class="form-label"></label>
-                <input asp-for="Foto" class="form-control" />
-                <span asp-validation-for="Foto" class="text-danger"></span>
-            </div>
-
-            <!-- Estado -->
-            <div class="mb-3">
-                <label asp-for="Estado" class="form-label"></label>
-                <select asp-for="Estado"
-                        class="form-control"
-                        asp-items="Html.GetEnumSelectList<EstadoAnimal>()">
-                </select>
-                <span asp-validation-for="Estado" class="text-danger"></span>
-            </div>
-
-            <!-- Botones -->
-            <button type="submit" class="btn btn-success">💾 Guardar</button>
-            <a asp-action="Index" class="btn btn-secondary">↩ Volver</a>
-        </form>
+    <!-- Campos base Animal -->
+    <div class="mb-3">
+        <label asp-for="Animal.Nombre" class="form-label"></label>
+        <input asp-for="Animal.Nombre" class="form-control" />
+        <span asp-validation-for="Animal.Nombre" class="text-danger"></span>
     </div>
-</div>
 
-@section Scripts {
-    <!-- Validaciones jQuery -->
+    <div class="mb-3">
+        <label asp-for="Animal.Tipo" class="form-label"></label>
+        <input asp-for="Animal.Tipo" class="form-control" />
+        <span asp-validation-for="Animal.Tipo" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Animal.Raza" class="form-label"></label>
+        <input asp-for="Animal.Raza" class="form-control" />
+        <span asp-validation-for="Animal.Raza" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Animal.Edad" class="form-label"></label>
+        <input asp-for="Animal.Edad" type="number" class="form-control" />
+        <span asp-validation-for="Animal.Edad" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Animal.Foto" class="form-label"></label>
+        <input asp-for="Animal.Foto" class="form-control" />
+        <span asp-validation-for="Animal.Foto" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Animal.Estado" class="form-label"></label>
+        <select asp-for="Animal.Estado" class="form-select"
+                asp-items="Html.GetEnumSelectList<EstadoAnimal>()" id="estadoSelect">
+        </select>
+        <span asp-validation-for="Animal.Estado" class="text-danger"></span>
+    </div>
+
+    <!-- ====== Sección ADOPCIÓN ====== -->
+    <div id="seccionAdopcion" class="border rounded p-3 mb-3" style="display:none;">
+        <h5>Datos de Adopción</h5>
+
+        <div class="mb-3">
+            <label asp-for="AnimalEnAdopcion.FamiliaId" class="form-label">Familia</label>
+            <select asp-for="AnimalEnAdopcion.FamiliaId" class="form-select"
+                    asp-items="Model.Familias">
+                <option value="">-- Seleccione una familia --</option>
+            </select>
+            <span asp-validation-for="AnimalEnAdopcion.FamiliaId" class="text-danger"></span>
+        </div>
+
+        @* acá poné otros campos de adopción si existen *@
+    </div>
+
+    <!-- ====== Sección TRÁNSITO ====== -->
+    <div id="seccionTransito" class="border rounded p-3 mb-3" style="display:none;">
+        <h5>Datos de Tránsito</h5>
+
+        <div class="mb-3">
+            <label asp-for="AnimalEnTransito.FamiliaId" class="form-label">Familia (opcional)</label>
+            <select asp-for="AnimalEnTransito.FamiliaId" class="form-select"
+                    asp-items="Model.Familias">
+                <option value="">-- (Opcional) --</option>
+            </select>
+            <span asp-validation-for="AnimalEnTransito.FamiliaId" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="AnimalEnTransito.FechaIngreso" class="form-label"></label>
+            <input asp-for="AnimalEnTransito.FechaIngreso" type="date" class="form-control" />
+            <span asp-validation-for="AnimalEnTransito.FechaIngreso" class="text-danger"></span>
+        </div>
+    </div>
+
+    <!-- ====== Sección COMUNITARIO ====== -->
+    <div id="seccionComunitario" class="border rounded p-3 mb-3" style="display:none;">
+        <h5>Datos de Comunitario</h5>
+
+        <div class="mb-3">
+            <label asp-for="AnimalComunitario.LugarHabitual" class="form-label"></label>
+            <input asp-for="AnimalComunitario.LugarHabitual" class="form-control" />
+            <span asp-validation-for="AnimalComunitario.LugarHabitual" class="text-danger"></span>
+        </div>
+
+        <div class="form-check">
+            <input asp-for="AnimalComunitario.AptoParaAdopcion" class="form-check-input" />
+            <label asp-for="AnimalComunitario.AptoParaAdopcion" class="form-check-label"></label>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success">💾 Guardar</button>
+    <a asp-action="Index" class="btn btn-secondary">↩ Volver</a>
+</form>
+
+   @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script>
+        function setSectionEnabled(sectionId, enabled) {
+            const section = document.getElementById(sectionId);
+
+            // Mostrar / ocultar
+            section.style.display = enabled ? "block" : "none";
+
+            // Deshabilitar inputs para que NO se posteen
+            section.querySelectorAll("input, select, textarea").forEach(el => {
+                el.disabled = !enabled;
+            });
+        }
+
+        function toggleSecciones() {
+            const estado = document.getElementById("estadoSelect").value;
+
+            const EN_ADOPCION = "@((int)EstadoAnimal.EnAdopcion)";
+            const EN_TRANSITO = "@((int)EstadoAnimal.EnTransito)";
+            const COMUNITARIO = "@((int)EstadoAnimal.Comunitario)";
+
+            setSectionEnabled("seccionAdopcion", estado === EN_ADOPCION);
+            setSectionEnabled("seccionTransito", estado === EN_TRANSITO);
+            setSectionEnabled("seccionComunitario", estado === COMUNITARIO);
+        }
+
+        document.getElementById("estadoSelect").addEventListener("change", toggleSecciones);
+        toggleSecciones();
+    </script>
+
 }
+<div asp-validation-summary="All" class="text-danger mb-3"></div>

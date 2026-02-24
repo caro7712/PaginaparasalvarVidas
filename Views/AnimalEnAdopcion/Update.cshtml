@@ -1,33 +1,49 @@
-﻿@model PaginaparaSalvarVidas.Models.AnimalEnAdopcion
+﻿@model PaginaparaSalvarVidas.Models.AnimalEnAdopcionVM
 
 @{
     ViewData["Title"] = "Editar Adopción";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
 }
 
-<h1>Editar</h1>
+<h1>Editar Adopción</h1>
 
-<form asp-action="Edit">
-    <input type="hidden" asp-for="Id" />
+<form asp-action="Update" asp-route-id="@Model.AnimalEnAdopcion.Id" method="post">
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" asp-for="AnimalEnAdopcion.Id" />
 
     <div class="form-group">
-        <label>Id del Animal</label>
-        <input asp-for="AnimalId" class="form-control" />
+        <label>Animal</label>
+        <select asp-for="AnimalEnAdopcion.AnimalId"
+                class="form-control"
+                asp-items="Model.Animales">
+            <option value="">-- Seleccionar Animal --</option>
+        </select>
+        <span asp-validation-for="AnimalEnAdopcion.AnimalId" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label>Id de la Familia</label>
-        <input asp-for="FamiliaId" class="form-control" />
+        <label>Familia</label>
+        <select asp-for="AnimalEnAdopcion.FamiliaId"
+                class="form-control"
+                asp-items="Model.Familias">
+            <option value="">-- Seleccionar Familia --</option>
+        </select>
+        <span asp-validation-for="AnimalEnAdopcion.FamiliaId" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label>Fecha de Adopción</label>
-        <input asp-for="FechaAdopcion" type="date" class="form-control" />
+        <input asp-for="AnimalEnAdopcion.FechaAdopcion" type="date" class="form-control" />
+        <span asp-validation-for="AnimalEnAdopcion.FechaAdopcion" class="text-danger"></span>
     </div>
 
     <br />
 
-    <button type="submit" class="btn btn-success">Actualizar</button>
+    <button type="submit" class="btn btn-success">💾 Actualizar</button>
     <a asp-action="Index" class="btn btn-secondary">Volver</a>
 </form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

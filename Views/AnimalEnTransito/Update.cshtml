@@ -1,38 +1,104 @@
 ﻿@model PaginaparaSalvarVidas.Models.AnimalEnTransito
+@using Microsoft.AspNetCore.Mvc.Rendering
 
 @{
     ViewData["Title"] = "Editar Tránsito";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
 }
 
-<h1>Editar</h1>
+<h1>Editar Tránsito</h1>
+<hr />
 
-<form asp-action="Edit">
-    <input type="hidden" asp-for="Id" />
+<div class="row">
+    <div class="col-md-6">
 
-    <div class="form-group">
-        <label>Id del Animal</label>
-        <input asp-for="AnimalId" class="form-control" />
+        <form asp-controller="AnimalEnTransito"
+              asp-action="Update"
+              asp-route-id="@Model.Id"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <input type="hidden" asp-for="Id" />
+
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <!-- Animal -->
+            <div class="mb-3">
+                <label asp-for="AnimalId" class="form-label">Animal</label>
+
+                <select asp-for="AnimalId" class="form-select" asp-items="ViewBag.Animales">
+                    <option value="">-- Seleccione un animal --</option>
+                </select>
+
+                <span asp-validation-for="AnimalId" class="text-danger"></span>
+            </div>
+
+            <!-- Familia -->
+            <div class="mb-3">
+                <label asp-for="FamiliaId" class="form-label">Familia</label>
+
+                <select asp-for="FamiliaId" class="form-select" asp-items="ViewBag.Familias">
+                    <option value="">-- Seleccione una familia --</option>
+                </select>
+
+                <span asp-validation-for="FamiliaId" class="text-danger"></span>
+            </div>
+
+            <!-- FechaIngreso -->
+            <div class="mb-3">
+                <label asp-for="FechaIngreso" class="form-label"></label>
+                <input asp-for="FechaIngreso"
+                       type="date"
+                       class="form-control"
+                       value="@Model.FechaIngreso?.ToString("yyyy-MM-dd")" />
+                <span asp-validation-for="FechaIngreso" class="text-danger"></span>
+            </div>
+
+            <!-- FechaSalida -->
+            <div class="mb-3">
+                <label asp-for="FechaSalida" class="form-label"></label>
+                <input asp-for="FechaSalida"
+                       type="date"
+                       class="form-control"
+                       value="@(Model.FechaSalida?.ToString("yyyy-MM-dd"))" />
+                <span asp-validation-for="FechaSalida" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-success">Actualizar</button>
+            <a asp-action="Index" class="btn btn-secondary">Volver</a>
+        </form>
+
     </div>
+</div>
 
-    <div class="form-group">
-        <label>Id de la Familia</label>
-        <input asp-for="FamiliaId" class="form-control" />
-    </div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 
-    <div class="form-group">
-        <label asp-for="FechaIngreso"></label>
-        <input asp-for="FechaIngreso" type="date" class="form-control" />
-    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <div class="form-group">
-        <label asp-for="FechaSalida"></label>
-        <input asp-for="FechaSalida" type="date" class="form-control" />
-    </div>
+    @if (TempData["SwalError"] != null)
+    {
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'No se pudo guardar',
+                text: '@TempData["SwalError"]',
+                confirmButtonText: 'OK'
+            });
+        </script>
+    }
 
-    <br />
-
-    <button type="submit" class="btn btn-success">Actualizar</button>
-    <a asp-action="Index" class="btn btn-secondary">Volver</a>
-</form>
+    @if (TempData["SwalOk"] != null)
+    {
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Guardado',
+                text: '@TempData["SwalOk"]',
+                timer: 1400,
+                showConfirmButton: false
+            });
+        </script>
+    }
+}

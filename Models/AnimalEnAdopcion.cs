@@ -1,4 +1,4 @@
-﻿using PaginaparaSalvarVidas.Models;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 
 namespace PaginaparaSalvarVidas.Models
@@ -12,12 +12,12 @@ namespace PaginaparaSalvarVidas.Models
         public int Id { get; set; }
 
         // ==========================
-        // RELACIÓN 1 a 1 - ANIMAL
+        // RELACIÓN - ANIMAL
         // ==========================
         [Required]
         public int AnimalId { get; set; }
 
-        public Animal Animal { get; set; } = null!;
+        public Animal? Animal { get; set; }
 
         // ==========================
         // RELACIÓN - FAMILIA
@@ -25,7 +25,8 @@ namespace PaginaparaSalvarVidas.Models
         [Required]
         public int FamiliaId { get; set; }
 
-        public Familia Familia { get; set; } = null!;
+        [ValidateNever]
+        public Familia? Familia { get; set; }
 
         // ==========================
         // DATOS ESPECÍFICOS

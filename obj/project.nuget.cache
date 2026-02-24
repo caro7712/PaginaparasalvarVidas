@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "4cveWzm8JHw=",
+  "dgSpecHash": "W6wAxqActF4=",
   "success": true,
-  "projectFilePath": "C:\\Users\\leon_\\Desktop\\Sitio web\\PaginaparaSalvarVidas\\PaginaparaSalvarVidas\\PaginaparaSalvarVidas.csproj",
+  "projectFilePath": "C:\\Users\\leon_\\source\\repos\\PaginaparaSalvarVidas\\PaginaparaSalvarVidas\\PaginaparaSalvarVidas.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\leon_\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\leon_\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

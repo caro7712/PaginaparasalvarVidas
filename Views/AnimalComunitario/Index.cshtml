@@ -7,13 +7,6 @@
 
 <h1>Animales Comunitarios</h1>
 
-@if (User.IsInRole("Admin") || User.IsInRole("Voluntario"))
-{
-    <p>
-        <a asp-action="Create" class="btn btn-primary">➕ Nuevo</a>
-    </p>
-}
-
 <table id="tablaAnimalesComunitarios" class="table table-striped table-bordered table-hover datatable w-100">
     <thead>
         <tr>
@@ -38,7 +31,7 @@
                 @if (User.IsInRole("Admin") || User.IsInRole("Voluntario"))
                 {
                     <td>
-                        <a asp-action="Edit"
+                        <a asp-action="Update"
                            asp-route-id="@item.Id"
                            class="btn btn-warning btn-sm">✏ Editar</a>
 

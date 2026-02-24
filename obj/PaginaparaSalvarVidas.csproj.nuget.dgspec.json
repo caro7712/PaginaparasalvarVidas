@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\leon_\\Desktop\\Sitio web\\PaginaparaSalvarVidas\\PaginaparaSalvarVidas\\PaginaparaSalvarVidas.csproj": {}
+    "C:\\Users\\leon_\\source\\repos\\PaginaparaSalvarVidas\\PaginaparaSalvarVidas\\PaginaparaSalvarVidas.csproj": {}
   },
   "projects": {
-    "C:\\Users\\leon_\\Desktop\\Sitio web\\PaginaparaSalvarVidas\\PaginaparaSalvarVidas\\PaginaparaSalvarVidas.csproj": {
+    "C:\\Users\\leon_\\source\\repos\\PaginaparaSalvarVidas\\PaginaparaSalvarVidas\\PaginaparaSalvarVidas.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\leon_\\Desktop\\Sitio web\\PaginaparaSalvarVidas\\PaginaparaSalvarVidas\\PaginaparaSalvarVidas.csproj",
+        "projectUniqueName": "C:\\Users\\leon_\\source\\repos\\PaginaparaSalvarVidas\\PaginaparaSalvarVidas\\PaginaparaSalvarVidas.csproj",
         "projectName": "PaginaparaSalvarVidas",
-        "projectPath": "C:\\Users\\leon_\\Desktop\\Sitio web\\PaginaparaSalvarVidas\\PaginaparaSalvarVidas\\PaginaparaSalvarVidas.csproj",
+        "projectPath": "C:\\Users\\leon_\\source\\repos\\PaginaparaSalvarVidas\\PaginaparaSalvarVidas\\PaginaparaSalvarVidas.csproj",
         "packagesPath": "C:\\Users\\leon_\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\leon_\\Desktop\\Sitio web\\PaginaparaSalvarVidas\\PaginaparaSalvarVidas\\obj\\",
+        "outputPath": "C:\\Users\\leon_\\source\\repos\\PaginaparaSalvarVidas\\PaginaparaSalvarVidas\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",

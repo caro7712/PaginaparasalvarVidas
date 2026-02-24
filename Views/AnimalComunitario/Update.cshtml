@@ -1,33 +1,42 @@
 ﻿@model PaginaparaSalvarVidas.Models.AnimalComunitario
+@using Microsoft.AspNetCore.Mvc.Rendering
 
 @{
     ViewData["Title"] = "Editar Animal Comunitario";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
 }
 
 <h1>Editar</h1>
 
-<form asp-action="Edit">
+<form asp-action="Update" asp-route-id="@Model.Id" method="post">
+    @Html.AntiForgeryToken()
     <input type="hidden" asp-for="Id" />
 
-    <div class="form-group">
-        <label>Id del Animal</label>
-        <input asp-for="AnimalId" class="form-control" />
+    <div class="form-group mb-3">
+        <label asp-for="AnimalId" class="form-label">Animal</label>
+
+        <select asp-for="AnimalId" class="form-select" asp-items="ViewBag.Animales">
+            <option value="">-- Seleccione un animal --</option>
+        </select>
+
+        <span asp-validation-for="AnimalId" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
-        <label>Lugar Habitual</label>
+    <div class="form-group mb-3">
+        <label asp-for="LugarHabitual" class="form-label">Lugar Habitual</label>
         <input asp-for="LugarHabitual" class="form-control" />
+        <span asp-validation-for="LugarHabitual" class="text-danger"></span>
     </div>
 
-    <div class="form-check">
+    <div class="form-check mb-3">
         <input asp-for="AptoParaAdopcion" class="form-check-input" />
         <label asp-for="AptoParaAdopcion" class="form-check-label"></label>
     </div>
 
-    <br />
-
     <button type="submit" class="btn btn-success">Actualizar</button>
     <a asp-action="Index" class="btn btn-secondary">Volver</a>
 </form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

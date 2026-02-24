@@ -1,17 +1,20 @@
 ﻿@page
 @model LoginModel
 
-@{
-    ViewData["Title"] = "Iniciar Sesión";
-}
+
 
 <h1>@ViewData["Title"]</h1>
 
-<div class="row">
+<div class="row justify-content-center">
     <div class="col-md-4">
+           
         <section>
             <form id="account" method="post">
-                <h2>Usa tu cuenta local para ingresar</h2>
+                @{
+                    ViewData["Title"] = "Iniciar Sesión";
+                }
+
+                <h2>"Iniciar Sesión"</h2>
                 <hr />
 
                 <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
@@ -72,49 +75,7 @@
         </section>
     </div>
 
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h3>O inicia sesión con otro servicio</h3>
-            <hr />
-
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            No hay servicios de autenticación externa configurados.
-                            Consulta la documentación de ASP.NET para habilitar el inicio de sesión
-                            con Google, Facebook u otros proveedores.
-                        </p>
-                    </div>
-                }
-                else
-                {
-                    <form id="external-account"
-                          asp-page="./ExternalLogin"
-                          asp-route-returnUrl="@Model.ReturnUrl"
-                          method="post"
-                          class="form-horizontal">
-
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins!)
-                                {
-                                    <button type="submit"
-                                            class="btn btn-primary"
-                                            name="provider"
-                                            value="@provider.Name"
-                                            title="Iniciar sesión con @provider.DisplayName">
-                                        @provider.DisplayName
-                                    </button>
-                                }
-                            </p>
-                        </div>
-                    </form>
-                }
-            }
-        </section>
-    </div>
+    
 </div>
 
 @section Scripts {

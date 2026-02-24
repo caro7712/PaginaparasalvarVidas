@@ -1,43 +1,28 @@
-﻿using PaginaparaSalvarVidas.Models;
-using System.ComponentModel.DataAnnotations;
-
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 
 namespace PaginaparaSalvarVidas.Models
 {
     public class AnimalEnTransito
     {
-        // ==========================
-        // CLAVE PRIMARIA
-        // ==========================
         [Key]
         public int Id { get; set; }
 
-        // ==========================
-        // RELACIÓN 1 a 1 - ANIMAL
-        // ==========================
         [Required]
         public int AnimalId { get; set; }
 
-        public Animal Animal { get; set; } = null!;
+        public Animal? Animal { get; set; }
 
-        // ==========================
-        // RELACIÓN - FAMILIA
-        // ==========================
-        [Required]
-        public int FamiliaId { get; set; }
+        // ✅ AHORA sí puede ser null
+        public int? FamiliaId { get; set; }
 
-        public Familia Familia { get; set; } = null!;
-
-        // ==========================
-        // DATOS ESPECÍFICOS
-        // ==========================
-        [DataType(DataType.Date)]
-        [Display(Name = "Fecha de ingreso")]
-        public DateTime FechaIngreso { get; set; }
+        [ValidateNever]
+        public Familia? Familia { get; set; }
 
         [DataType(DataType.Date)]
-        [Display(Name = "Fecha de salida")]
+        public DateTime? FechaIngreso { get; set; }
+
+        [DataType(DataType.Date)]
         public DateTime? FechaSalida { get; set; }
     }
 }

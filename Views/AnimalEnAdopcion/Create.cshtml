@@ -1,27 +1,39 @@
-﻿@model PaginaparaSalvarVidas.Models.AnimalEnAdopcion
+﻿@model PaginaparaSalvarVidas.Models.AnimalEnAdopcionVM
 
 @{
     ViewData["Title"] = "Registrar Adopción";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
 }
 
 <h1>Registrar Adopción</h1>
 
-<form asp-action="Create">
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+
     <div class="form-group">
-        <label>Id del Animal</label>
-        <input asp-for="AnimalId" class="form-control" />
+        <label>Animal</label>
+        <select asp-for="AnimalEnAdopcion.AnimalId"
+                class="form-control"
+                asp-items="Model.Animales">
+            <option value="">-- Seleccionar Animal --</option>
+        </select>
+        <span asp-validation-for="AnimalEnAdopcion.AnimalId" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label>Id de la Familia</label>
-        <input asp-for="FamiliaId" class="form-control" />
+        <label>Familia</label>
+        <select asp-for="AnimalEnAdopcion.FamiliaId"
+                class="form-control"
+                asp-items="Model.Familias">
+            <option value="">-- Seleccionar Familia --</option>
+        </select>
+        <span asp-validation-for="AnimalEnAdopcion.FamiliaId" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label>Fecha de Adopción</label>
-        <input asp-for="FechaAdopcion" type="date" class="form-control" />
+        <input asp-for="AnimalEnAdopcion.FechaAdopcion" type="date" class="form-control" />
+        <span asp-validation-for="AnimalEnAdopcion.FechaAdopcion" class="text-danger"></span>
     </div>
 
     <br />
@@ -29,3 +41,7 @@
     <button type="submit" class="btn btn-success">💾 Guardar</button>
     <a asp-action="Index" class="btn btn-secondary">Volver</a>
 </form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

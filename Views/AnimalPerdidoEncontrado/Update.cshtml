@@ -12,8 +12,15 @@
     <input type="hidden" asp-for="Id" />
 
     <div class="form-group">
-        <label>Id del Animal (opcional)</label>
-        <input asp-for="AnimalId" class="form-control" />
+        <label>Animal (opcional)</label>
+
+        <select asp-for="AnimalId"
+                class="form-control"
+                asp-items="ViewBag.Animales">
+
+            <option value="">-- Sin animal asociado --</option>
+
+        </select>
     </div>
 
     <div class="form-group">
