@@ -55,12 +55,17 @@ ________________________________________
 📸 6. Capturas del Sistema
 🏠 Página Principal
 
- 
+ <img width="653" height="694" alt="image" src="https://github.com/user-attachments/assets/554cd314-bf3d-46a1-84b5-9b4f859709cc" />
+
 
 4
 ________________________________________
 📋 Listado de Animales (DataTables)
  
+<img width="568" height="380" alt="image" src="https://github.com/user-attachments/assets/e0c6e3fb-4b2f-4d05-8a88-8db0b99c4367" />
+
+
+<img width="568" height="380" alt="image" src="https://github.com/user-attachments/assets/2a61f6fd-be11-40f3-ab2d-d21bea39bae4" />
 
  
 
@@ -68,13 +73,14 @@ ________________________________________
 ________________________________________
 ➕ Formulario de Registro
 
- 
+ <img width="568" height="380" alt="image" src="https://github.com/user-attachments/assets/00e83371-d095-4f4e-b316-0a12c0aa6908" />
+
 
 4
 ________________________________________
 ⚙️ 7. Instalación y Ejecución
 1️⃣ Clonar el repositorio
-git clone https://github.com/tuusuario/PaginaparaSalvarVidas.git
+git clone (https://github.com/caro7712/PaginaparasalvarVidas)
 2️⃣ Configurar la Base de Datos
 Modificar el archivo appsettings.json:
 "ConnectionStrings": {
